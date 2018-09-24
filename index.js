@@ -30,7 +30,18 @@ const EasyImapSmtpMail = {
         } else {
             console.log("Android")
         }
+    },
+    sendEmailMessage: async function (smtpHost, smtpPort, user, pass, typeConn, typeAuth,
+        nameFrom, emailFrom, nameTo, emailTo, subjet, bodyMessage,attachment) {
+        if (plataform == 'ios') {
+            let v = await NativeEasyImapSmtpMailIos.sendEmailMessage(smtpHost, smtpPort, user, pass, typeConn, typeAuth,
+                nameFrom, emailFrom, nameTo, emailTo, subjet, bodyMessage,attachment)
+            return v
+        } else {
+            console.log("Android")
+        }
     }
+
 
 }
 export default EasyImapSmtpMail

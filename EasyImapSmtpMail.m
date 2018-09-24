@@ -61,7 +61,8 @@ RCT_REMAP_METHOD(connectFechMail,
         
           NSMutableArray * datosMessage = [[NSMutableArray alloc] init];
           
-          NSString* msgHTMLBody = [[messageParser mainPart] contentDescription];
+          NSString* msgHTMLBody = [messageParser htmlBodyRendering];
+          msgHTMLBody = [[msgHTMLBody mco_flattenHTML] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
           [datosMessage addObject:[messageParser header].messageID];
           [datosMessage addObject:msgHTMLBody];
           NSArray * attachment =[messageParser attachments];
@@ -140,7 +141,6 @@ RCT_REMAP_METHOD(deleteMessages,
               NSMutableArray * arrayPromise =[[NSMutableArray alloc] init];
               [arrayPromise addObject:@"true"];
               [arrayPromise addObject:@"0"];
-              NSString * json =[arrayPromise toJSONString];
               [delOP start:^(NSError *  error) {
                 if(!error){
                   resolve(@"delete_success");
@@ -157,6 +157,75 @@ RCT_REMAP_METHOD(deleteMessages,
     }
   }];
 
+  
+}
+RCT_REMAP_METHOD(sendEmailMessage,
+                  smtpHost:(NSString *)hostName
+                  smtpPortE:(int )port
+                  userNameE:(NSString *)userName
+                  passE:(NSString *)pass
+                  typeConnectionE:(int )typeConnection
+                  typeAuthE:(int )typeAuth
+                  nameFromE:(NSString * )nameFrom
+                  mailFromE:(NSString * )mailFrom
+                  nameToE:(NSString * )nameTo
+                  mailToE:(NSString * )mailTo
+                  subjetE:(NSString * )subjet
+                  bodyMessageE:(NSString * )bodyMessage
+                  attachmentE:(NSString * )attachment
+                 findEventsWithResolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject
+                 )
+{
+  MCOSMTPSession *smtpSession = [[MCOSMTPSession alloc] init];
+  smtpSession.hostname = hostName;
+  smtpSession.port = port;
+  smtpSession.username = userName;
+  smtpSession.password = pass;
+  if(typeAuth == 0){
+    
+     smtpSession.authType = MCOAuthTypeSASLNone;
+  }else if(typeAuth==1){
+     smtpSession.authType = MCOAuthTypeSASLPlain;
+  }else if(typeAuth==2){
+    smtpSession.authType = MCOAuthTypeSASLLogin;
+  }
+  
+  smtpSession.connectionType = MCOConnectionTypeTLS;
+  
+  MCOMessageBuilder *builder = [[MCOMessageBuilder alloc] init];
+  MCOAddress *from = [MCOAddress addressWithDisplayName:nameFrom
+                                                mailbox:mailFrom];
+  MCOAddress *to = [MCOAddress addressWithDisplayName:nameTo
+                                              mailbox:mailTo];
+  [[builder header] setFrom:from];
+  [[builder header] setTo:@[to]];
+  [[builder header] setSubject:subjet];
+  if(![attachment isEqualToString:@""]){
+    //NSData * data = [[NSData  alloc] ini]
+    
+    NSString *attachmentPath = attachment;
+    MCOAttachment *attachment = [MCOAttachment attachmentWithContentsOfFile:attachmentPath];
+    [builder addAttachment:attachment];
+  }
+  
+  [builder setHTMLBody:bodyMessage];
+  NSData * rfc822Data = [builder data];
+  
+  MCOSMTPSendOperation *sendOperation =
+  [smtpSession sendOperationWithData:rfc822Data];
+  [sendOperation start:^(NSError *error) {
+    if(error) {
+      reject(@"no_deleted", @"Error Promise", error);
+      NSLog(@"Error sending email: %@", error);
+    } else {
+      NSLog(@"Successfully sent email!");
+      NSMutableArray * arrayPromise =[[NSMutableArray alloc] init];
+      [arrayPromise addObject:@"true"];
+      [arrayPromise addObject:@"0"];
+    }
+  }];
+  
   
 }
 

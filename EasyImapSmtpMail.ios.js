@@ -39,6 +39,7 @@ const EasyImapSmtpMail = {
     cantMail = states[5]
     return _MailsArrayFetch
   },
+  //MessageID value 
   getBodyMensagebyMessageID: async function (MessageID) {
     if (MessageID != "") {
       var body = _MailsArrayFetch[0].find(el => {
@@ -55,7 +56,12 @@ const EasyImapSmtpMail = {
     return _deleteMessage
   },
   //Send Email SMTP Protocol 
-  sendEmail: async function (Email) {
+  sendEmailMessage: async function (smtpHost, smtpPort, user, pass, typeConn, typeAuth,
+    nameFrom, emailFrom, nameTo, emailTo, subjet, bodyMessage,attachment) {
+
+    var _smtpSendMessage = await NativeEasyImapSmtpMail.sendEmailMessage(smtpHost, smtpPort, user, pass, typeConn, typeAuth,
+      nameFrom, emailFrom, nameTo, emailTo, subjet, bodyMessage, attachment)
+    return _smtpSendMessage
 
   }
 
