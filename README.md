@@ -18,41 +18,51 @@ Fetch and send Emails using as main library Mailcore2, this module allow fetch, 
   
   - Build Proyect!!.
 
-## Documentation
+## Documentation 
+```javascript
   import EasyImapSmtpMail from 'easy-imap-smtp-mail'
   
   /*Set Values of Configuration of EasyImapSmtpMail
      EasyImapSmtpMail.esasy_IMAP_SMTP_MAIL("imapServer(String)",portServer(int),"UserMail(String)","Password(String)",TypeConneccion(int),smtpHost(String),smtpPort(int),userSMTP(String),passSMTP(String),typeConn(int),typeAuth(int))
   */
-  /* Fetch Emails, this return an array who contains 2 arrays
+  /* Fetch Emails, this return an array who contains 2 arrays*/
     EasyImapSmtpMail.conectFetchEmail(cantMail(int))
     .then(v =>{
       console.log(v)
     })
 
-    v=[ 0 = ["messageID","BodyMessage",[Attachmet] 
-        1 = [flags: flags,gmailMessageID:gmailMessageID,gmailThreadID: gmailThreadID header: {from: from, subject:           subjet", to: to, messageID:"messageID"}, modSeqValue: modSeqValue, originalFlags: originalFlags,                sequenceNumber: sequenceNumber, size: size uid: uid]]]
+    // v=[ 0 = ["messageID","BodyMessage",[Attachmet] 
+    //     1 = [flags: flags,gmailMessageID:gmailMessageID,gmailThreadID: gmailThreadID header: {from: from, subject:           subjet", to: to, messageID:"messageID"}, modSeqValue: modSeqValue, originalFlags: originalFlags,                sequenceNumber: sequenceNumber, size: size uid: uid]]]
     
-    Allways the mails are sorted from the last mail until the cantMails that you set.
-  */
+    // Allways the mails are sorted from the last mail until the cantMails that you set.
+  
 
-  /* Get Body Message returns the Body of Message by messageID
+  /* Get Body Message returns the Body of Message by messageID*/
       EasyImapSmtpMail.getBodyMensagebyMessageID(messageID)
       .then(v =>{
           console.log(v)
       })
 
       v = "This is a body of  Message"
-  */
   
-  /* Get Body Message returns the Body of Message by messageID
+  
+  /* Get Body Message returns the Body of Message by messageID*/
       EasyImapSmtpMail.deleteMessages(UID)
       .then(v =>{
           console.log(v)
       })
+      //In case of sms deleted succsess
+      v = ["true",0]
+  
+  /* Get Body Message returns the Body of Message by messageID*/
+      EasyImapSmtpMail.sendEmailMessage(UID)
+      .then(v =>{
+          console.log(v)
+      })
+      //In case of sms send succsess
+      v = ["true",0]
 
-      v = "This is a body of  Message"
-  */
+ ```
 
 
 ## License
