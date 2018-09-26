@@ -22,9 +22,11 @@ Fetch and send Emails using as main library Mailcore2, this module allow fetch, 
 ```javascript
   import EasyImapSmtpMail from 'easy-imap-smtp-mail'
   
-  /*Set Values of Configuration of EasyImapSmtpMail
-     EasyImapSmtpMail.esasy_IMAP_SMTP_MAIL("imapServer(String)",portServer(int),"UserMail(String)","Password(String)",TypeConneccion(int),smtpHost(String),smtpPort(int),userSMTP(String),passSMTP(String),typeConn(int),typeAuth(int))
-  */
+  /*Set Values of Configuration of EasyImapSmtpMail*/
+     EasyImapSmtpMail.esasy_IMAP_SMTP_MAIL("imapServer(String)",portServer(int),
+     "UserMail(String)","Password(String)",TypeConneccion(int),smtpHost(String),
+     smtpPort(int),userSMTP(String),passSMTP(String),typeConn(int),typeAuth(int))
+  
   /* Fetch Emails, this return an array who contains 2 arrays*/
     EasyImapSmtpMail.conectFetchEmail(cantMail(int))
     .then(v =>{
@@ -43,7 +45,7 @@ Fetch and send Emails using as main library Mailcore2, this module allow fetch, 
           console.log(v)
       })
 
-      v = "This is a body of  Message"
+      //v = "This is a body of  Message"
   
   
   /* Get Body Message returns the Body of Message by messageID*/
@@ -52,7 +54,7 @@ Fetch and send Emails using as main library Mailcore2, this module allow fetch, 
           console.log(v)
       })
       //In case of sms deleted succsess
-      v = ["true",0]
+     // v = ["true",0]
   
   /* Get Body Message returns the Body of Message by messageID*/
       EasyImapSmtpMail.sendEmailMessage(UID)
@@ -60,7 +62,7 @@ Fetch and send Emails using as main library Mailcore2, this module allow fetch, 
           console.log(v)
       })
       //In case of sms send succsess
-      v = ["true",0]
+     // v = ["true",0]
 
  ```
 
