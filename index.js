@@ -7,12 +7,21 @@ const plataform = Platform.select({
 })
 
 const EasyImapSmtpMail = {
+    esasy_IMAP_SMTP_MAIL: function (...states){
+        if(plataform=='ios'){
+            NativeEasyImapSmtpMailIos.esasy_IMAP_SMTP_MAIL(states)
+        }else{
+            NativeEasyImapSmtpMailAndroid.esasy_IMAP_SMTP_MAIL(states)
+        }
+       
+    },
     conectFetchEmail: async function (...states) {
         if (plataform == 'ios') {
             let v = await NativeEasyImapSmtpMailIos.conectFetchEmail(states)
             return v
         } else {
-            console.log("Android")
+            let v = await NativeEasyImapSmtpMailAndroid.conectFetchEmail(states)
+            return v
         }
     },
     getBodyMensagebyMessageID: async function (MessageID) {
@@ -20,7 +29,8 @@ const EasyImapSmtpMail = {
             let v = await NativeEasyImapSmtpMailIos.getBodyMensagebyMessageID(MessageID)
             return v
         } else {
-            console.log("Android")
+            let v = await NativeEasyImapSmtpMailAndroid.getBodyMensagebyMessageID(MessageID)
+            return v
         }
     },
     deleteMessages: async function (UID) {
@@ -28,17 +38,17 @@ const EasyImapSmtpMail = {
             let v = await NativeEasyImapSmtpMailIos.deleteMessages(UID)
             return v
         } else {
-            console.log("Android")
+            let v = await NativeEasyImapSmtpMailAndroid.deleteMessages(UID)
+            return v
         }
     },
-    sendEmailMessage: async function (smtpHost, smtpPort, user, pass, typeConn, typeAuth,
-        nameFrom, emailFrom, nameTo, emailTo, subjet, bodyMessage,attachment) {
+    sendEmailMessage: async function (nameFrom, emailFrom, nameTo, emailTo, subjet, bodyMessage,attachment) {
         if (plataform == 'ios') {
-            let v = await NativeEasyImapSmtpMailIos.sendEmailMessage(smtpHost, smtpPort, user, pass, typeConn, typeAuth,
-                nameFrom, emailFrom, nameTo, emailTo, subjet, bodyMessage,attachment)
+            let v = await NativeEasyImapSmtpMailIos.sendEmailMessage(nameFrom, emailFrom, nameTo, emailTo, subjet, bodyMessage,attachment)
             return v
         } else {
-            console.log("Android")
+            let v = await NativeEasyImapSmtpMailAndroid.sendEmailMessage(nameFrom,emailFrom, nameTo, emailTo, subjet, bodyMessage,attachment)
+            return v
         }
     }
 

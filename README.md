@@ -17,7 +17,8 @@ Fetch and send Emails using as main library Mailcore2, this module allow fetch, 
   - Now in the same place we search "Build Setings", right there on the input of Search write "standard library" and change to "libstdc++ GNU C++". Then write right there "Other Flags" and paste this "-lctemplate-ios -letpan-ios -lxml2 -lsasl2 -liconv -ltidy -lz -lc++ -lresolv -stdlib=libc++ -ObjC".
   
   - Build Proyect!!.
-
+- For Android 
+  - react-native link 
 ## Documentation 
 ```javascript
   import EasyImapSmtpMail from 'easy-imap-smtp-mail'
@@ -32,10 +33,13 @@ Fetch and send Emails using as main library Mailcore2, this module allow fetch, 
     .then(v =>{
       console.log(v)
     })
-
+    //      IOS
     // v=[ 0 = ["messageID","BodyMessage",[Attachmet] 
     //     1 = [flags: flags,gmailMessageID:gmailMessageID,gmailThreadID: gmailThreadID header: {from: from, subject:           subjet", to: to, messageID:"messageID"}, modSeqValue: modSeqValue, originalFlags: originalFlags,                sequenceNumber: sequenceNumber, size: size uid: uid]]]
     
+    //     Android
+     // v=[ 0 = [AttachmetType: "", Attachmet: "base64", BodyMessage: "", messageID: "29587"] 
+    //     1 = [{subjet: "", to: "", from: ""}}]
     // Allways the mails are sorted from the last mail until the cantMails that you set.
   
 
@@ -57,7 +61,7 @@ Fetch and send Emails using as main library Mailcore2, this module allow fetch, 
      // v = ["true",0]
   
   /* Get Body Message returns the Body of Message by messageID*/
-      EasyImapSmtpMail.sendEmailMessage(UID)
+      EasyImapSmtpMail.sendEmailMessage(nameFrom,emailFrom, nameTo, emailTo, subjet, bodyMessage,attachment)
       .then(v =>{
           console.log(v)
       })

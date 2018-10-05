@@ -183,15 +183,20 @@ RCT_REMAP_METHOD(sendEmailMessage,
   smtpSession.username = userName;
   smtpSession.password = pass;
   if(typeAuth == 0){
-    
      smtpSession.authType = MCOAuthTypeSASLNone;
   }else if(typeAuth==1){
      smtpSession.authType = MCOAuthTypeSASLPlain;
   }else if(typeAuth==2){
     smtpSession.authType = MCOAuthTypeSASLLogin;
   }
+  if(typeConnection == 0){
+    smtpSession.connectionType = MCOConnectionTypeStartTLS;
+  }else if (typeConnection==1){
+    smtpSession.connectionType = MCOConnectionTypeTLS;
+  }else{
+    smtpSession.connectionType = MCOConnectionTypeClear;
+  }
   
-  smtpSession.connectionType = MCOConnectionTypeTLS;
   
   MCOMessageBuilder *builder = [[MCOMessageBuilder alloc] init];
   MCOAddress *from = [MCOAddress addressWithDisplayName:nameFrom
